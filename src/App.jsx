@@ -13,7 +13,6 @@
 //
 // ============================================================
 
-import { div } from "framer-motion/client";
 
 // STEP 1: Import your section components
 // Each component lives in its own file inside ./components/
@@ -57,11 +56,13 @@ import { div } from "framer-motion/client";
 
 /* --- YOUR COMPONENT CODE GOES HERE --- */
 // imports go below here
+import NavBar from "./components/NavBar";
 
 export default function App() {
     return(
         <div className="app">
             {/* NAVBAR */}
+            <NavBar />
 
             {/* Hero */}
             <section className="hero bg hero">
