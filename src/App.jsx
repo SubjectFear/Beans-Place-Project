@@ -57,6 +57,7 @@
 /* --- YOUR COMPONENT CODE GOES HERE --- */
 // imports go below here
 import NavBar from "./components/NavBar";
+import HeroSection from "./components/HeroSection"
 
 export default function App() {
     return(
@@ -67,7 +68,7 @@ export default function App() {
             {/* Hero */}
             <section className="hero bg hero">
                 <div className="hero-grid">
-
+                    <HeroSection />
                 </div>
             </section>
 
