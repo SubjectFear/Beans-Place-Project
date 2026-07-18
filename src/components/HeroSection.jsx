@@ -108,7 +108,6 @@ export default function HeroSection() {
     const imgOpacity = useTransform(scrollY, [0, 500], [1, 0] );
     const imgY = useTransform(scrollY, [0, 600], [0, 100] );
 
-
     return(
         <>
             {/* Left - Text */}
@@ -232,7 +231,6 @@ export default function HeroSection() {
             </div>
             
         </>
-
 
     );
 }
