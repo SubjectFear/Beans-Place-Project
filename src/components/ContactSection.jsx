@@ -36,7 +36,7 @@
 
 /* --- YOUR IMPORTS GO HERE --- */
 import { useState, useEffect, useRef } from "react";
-import { motion, useMotinoValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import ScrollReveal from "./ui/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "./ui/ScrollReveal";
 import Separator from "./ui/Separator";
@@ -242,8 +242,8 @@ const contactChannels = [
 // Tilt card with mouse tracking
 function TiltCard({ children, className, href, target, rel }) {
   const ref = useRef(null);
-  const x = useMotinoValue(0);
-  const y = useMotinoValue(0);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [6, -6]), {
     stiffness: 200,
     damping: 20,
@@ -255,8 +255,8 @@ function TiltCard({ children, className, href, target, rel }) {
 
   function handleMouse(e) {
     const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX = rect.left) / rect.width - 0.5);
-    y.set((e.clienty = rect.top) / rect.height - 0.5);
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
   }
 
   function handleLeave() {
@@ -274,7 +274,7 @@ function TiltCard({ children, className, href, target, rel }) {
       rel={rel}
       onMouseMove={handleMouse}
       onMouseLeave={handleLeave}
-      style={{ rotateX, rotateT, transformPerspective: 600 }}
+      style={{ rotateX, rotateY, transformPerspective: 600 }}
       className={className}
     >
       {children}
@@ -312,7 +312,7 @@ function ContactFormInline() {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 1200));
-      serStatue("sent");
+      setStatus("sent");
       setFormData({ name: "", email: "", subject: "", message: "" });
       setTouched({});
       setTimeout(() => setStatus(null), 4000);
@@ -333,7 +333,7 @@ function ContactFormInline() {
     >
       {/* Form Header */}
       <div className="mb-6">
-        <h3 className="contact-form-titke">Send a message</h3>
+        <h3 className="contact-form-title">Send a message</h3>
         <p className="contact-form-subtitle">
           We'd love to hear from you. Fill out the form and we'll get back
           within 24 hours.
@@ -346,6 +346,7 @@ function ContactFormInline() {
           id="contact-name"
           name="name"
           placeholder="John Doe"
+          className="placeholder:text-white"
           value={formData.name}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -359,6 +360,7 @@ function ContactFormInline() {
           name="email"
           type="email"
           placeholder="johndoe@example.com"
+          className="placeholder:text-white"
           value={formData.email}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -374,6 +376,7 @@ function ContactFormInline() {
           id="contact-subject"
           name="subject"
           placeholder="What's this about?"
+          className="placeholder:text-white"
           value={formData.subject}
           onChange={handleChange}
         />
@@ -397,7 +400,7 @@ function ContactFormInline() {
         />
       </div>
 
-      <div className="mt-6 flex item-center gap-4">
+      <div className="mt-6 flex items-center gap-4">
         <Button
           type="submit"
           variant="accent"
@@ -405,7 +408,7 @@ function ContactFormInline() {
           className="contact-form-submit"
           disabled={status === "sending"}
         >
-          {staus === "sending" ? (
+          {status === "sending" ? (
             <span className="flex items-center gap-2">
               <svg
                 className="animate-spin w-4 h-4"
@@ -429,7 +432,7 @@ function ContactFormInline() {
               Sending...
             </span>
           ) : status === "sent" ? (
-            <span className="flex item-center gap-2">
+            <span className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -512,11 +515,11 @@ export default function ContactSection() {
             say hello - we'd love to hear from you.
           </p>
 
-          <Separator className="mt-4 mb-2 mx-auot max-w-48" />
+          <Separator className="mt-4 mb-2 mx-auto max-w-48" />
         </ScrollReveal>
 
         {/* Two Column: Form  +  Info Cards */}
-        <div className="contact-leyout">
+        <div className="contact-layout">
           {/* Left: Contact Form */}
           <div className="contact-form-col">
             <ContactFormInline />
@@ -547,7 +550,7 @@ export default function ContactSection() {
 
                       <div className="contact-card-content">
                         <div
-                          className={`contact-card-icon bg-gradient-to-br ${channel.gradient}`}
+                          className={`contact-card-icon bg-linear-to-br ${channel.gradient}`}
                         >
                           {channel.icon}
                         </div>
@@ -649,15 +652,14 @@ export default function ContactSection() {
         </div>
       </div>
 
-        {/* Mouse-follow-glow (only on desktop) */}
-        <div 
-            className="contact-mouse-glow"
-            style={{
-                left: `${mousePos.x - 192}`
-                top: `${mousePos.y - 192}`
-            }}
-        />
-
+      {/* Mouse-follow-glow (only on desktop) */}
+      <div
+        className="contact-mouse-glow"
+        style={{
+          left: `${mousePos.x - 192}`,
+          top: `${mousePos.y - 192}`,
+        }}
+      />
     </div>
   );
 }
